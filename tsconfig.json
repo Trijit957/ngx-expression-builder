@@ -12,8 +12,8 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "ng-query-builder": [
-        "dist/ng-query-builder"
+      "ng-expression-builder": [
+        "dist/ng-expression-builder"
       ]
     },
     "declaration": false,

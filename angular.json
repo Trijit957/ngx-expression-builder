@@ -103,23 +103,23 @@
         }
       }
     },
-    "ng-query-builder": {
+    "ng-expression-builder": {
       "projectType": "library",
-      "root": "projects/ng-query-builder",
-      "sourceRoot": "projects/ng-query-builder/src",
+      "root": "projects/ng-expression-builder",
+      "sourceRoot": "projects/ng-expression-builder/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/ng-query-builder/ng-package.json"
+            "project": "projects/ng-expression-builder/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/ng-query-builder/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ng-expression-builder/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/ng-query-builder/tsconfig.lib.json"
+              "tsConfig": "projects/ng-expression-builder/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -127,9 +127,9 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/ng-query-builder/src/test.ts",
-            "tsConfig": "projects/ng-query-builder/tsconfig.spec.json",
-            "karmaConfig": "projects/ng-query-builder/karma.conf.js"
+            "main": "projects/ng-expression-builder/src/test.ts",
+            "tsConfig": "projects/ng-expression-builder/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-expression-builder/karma.conf.js"
           }
         }
       }

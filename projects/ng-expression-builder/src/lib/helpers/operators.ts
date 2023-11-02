@@ -1,4 +1,4 @@
-import { MappedOperatorEnum, OperatorNameEnum, OperatorSymbolEnum, OperatorType } from "../ng-query-builder.types";
+import { MappedOperatorEnum, OperatorNameEnum, OperatorSymbolEnum, OperatorType } from "../ng-expression-builder.types";
 
 export const operators: Array<OperatorType> = [
     {

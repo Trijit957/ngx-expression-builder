@@ -1,4 +1,4 @@
-import { OperatorSymbolEnum } from "../ng-query-builder.types"; 
+import { OperatorSymbolEnum } from "../ng-expression-builder.types"; 
 import { operators } from "./operators";
 
 class Node {

@@ -1,5 +1,5 @@
 {
-  "name": "ng-query-builder",
+  "name": "ng-expression-builder",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

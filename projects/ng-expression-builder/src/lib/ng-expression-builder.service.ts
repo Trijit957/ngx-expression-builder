@@ -1,26 +1,17 @@
 import { Injectable } from '@angular/core';
-import { MappedOperatorEnum, OperatorNameEnum, OperatorSymbolEnum, OperatorType } from './ng-query-builder.types';
+import { MappedOperatorEnum, OperatorNameEnum, OperatorSymbolEnum, OperatorType } from './ng-expression-builder.types';
 import { convertToPostfix } from './helpers/infix-to-postfix-expression';
 import { ExpressionTree } from './helpers/postfix-to-expression-tree';
 import { operators } from './helpers/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class NgQueryBuilderService {
- 
-  private mappedOperators: Array<string> = [
-    OperatorSymbolEnum.AND,
-    OperatorSymbolEnum.OR,
-    OperatorSymbolEnum.GREATER_THAN_EQUALS_TO,
-    OperatorSymbolEnum.LESS_THAN_EQUALS_TO
-  ];
+@Injectable()
+export class NgExpressionBuilderService {
 
   private operatorFunctions: any = {
-    "+": (a: number, b: number) => a + b ,
-    "-": (a: number, b: number) => a - b ,
-    "*": (a: number, b: number) => a * b ,
-    "/": (a: number, b: number) => a / b 
+    [OperatorSymbolEnum.ADD]: (a: number, b: number) => a + b ,
+    [OperatorSymbolEnum.SUBSTRACT]: (a: number, b: number) => a - b ,
+    [OperatorSymbolEnum.MULTIPLY]: (a: number, b: number) => a * b ,
+    [OperatorSymbolEnum.DIVIDE]: (a: number, b: number) => a / b 
   };
 
   constructor() { }
@@ -33,14 +24,12 @@ export class NgQueryBuilderService {
     return operators.find(operator => ( isMapped ? operator.mappedSymbol : operator.symbol ) === characterString || ( isMapped ? operator.mappedSymbol : operator.secondarySymbol ) === characterString);
   }
   
-  private buildQuery(rawQueryString: string): Array<string> {
+  private buildExpression(rawQueryString: string): Array<string> {
     rawQueryString = `${OperatorSymbolEnum.OPENNING_BRACKET}${rawQueryString}${OperatorSymbolEnum.CLOSING_BRACKET}`;
 
-    Object.keys(MappedOperatorEnum).forEach((key, index) => {
+    Object.keys(MappedOperatorEnum).forEach(key => {
       rawQueryString = rawQueryString.replaceAll(OperatorSymbolEnum[key as keyof typeof MappedOperatorEnum], MappedOperatorEnum[key as keyof typeof MappedOperatorEnum]);
     });
-
-    console.log('rawQueryString', rawQueryString);
 
     let previousOperatorIndex = 0;
     let partOfStringBeforeOperator!: string;
@@ -81,48 +70,47 @@ export class NgQueryBuilderService {
       }
     }
 
-    console.log("expressionArray", expressionArray);
-
     return expressionArray;
   }
 
   public generateExpressionTree(rawQueryString: string) {
 
-    let expressionArray = this.buildQuery(rawQueryString);
+    let expressionArray = this.buildExpression(rawQueryString);
 
     let postfixExpressionArray: string[] = convertToPostfix(expressionArray);
-
-    console.log("postfixExpressionArray", postfixExpressionArray)
 
     let expressionTree = new ExpressionTree();
 
     let tree = expressionTree.generateExpressionTree(postfixExpressionArray);
 
-    console.log("tree", tree)
+    return tree;
+
   }
 
   public evaluateExpression(infixExpressionString: string) {
 
-    let expressionArray = this.buildQuery(infixExpressionString);
+    let expressionArray = this.buildExpression(infixExpressionString);
 
-    console.log("expressionArray =>", expressionArray)
+    let regex = /[0-9\+\-\*/\(\)]/
+
+    expressionArray.forEach(node => {
+      if(!regex.test(node)) {
+         throw new Error(`ParseError: ${infixExpressionString} is Not a valid mathematical expression`)
+      }
+    })
 
     let postfixExpressionArray: string[] = convertToPostfix(expressionArray);
 
-    console.log("postfixExpressionArray =>", postfixExpressionArray)
-
     let postfixExpressionString = postfixExpressionArray.join(' ');
-
-    console.log("postfixExpressionString =>", postfixExpressionString);
 
     let stack: any = [];
     let currentChar: string; 
   
-    for (var k = 0, length = postfixExpressionString.length; k < length;  k++) {
+    for(let i = 0, length = postfixExpressionString.length; i < length;  i++) {
   
-      currentChar = postfixExpressionString[k];
+      currentChar = postfixExpressionString[i];
   
-      if (/\d/.test(currentChar)) {
+      if(/\d/.test(currentChar)) {
         stack.push(currentChar);
       } else if (currentChar in this.operatorFunctions) {
   
@@ -136,11 +124,17 @@ export class NgQueryBuilderService {
     
     }
   
-    if (stack.length > 1)
-      throw "ParseError: " + infixExpressionString + ", stack: " + stack;
+    if(stack.length > 1) {
+      throw `ParseError: ${infixExpressionString}`;
+    }
+
+      if(Number(stack[0])) {
+        return stack[0]
+      } else {
+        throw new Error(`ParseError: ${infixExpressionString} is Not a valid mathematical expression`);
+      }
   
-    return stack[0];
   }
-
-
+ 
 }
+

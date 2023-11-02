@@ -1,4 +1,4 @@
-import { OperatorSymbolEnum } from "../ng-query-builder.types";
+import { OperatorSymbolEnum } from "../ng-expression-builder.types";
 import { operators } from "./operators";
 
 const operatorsArray = operators.map(operator => operator.symbol).filter(operator => !['(', ')'].includes(operator));

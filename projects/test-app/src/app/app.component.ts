@@ -15,6 +15,8 @@ export class AppComponent {
   ) { }
 
   buildQuery() {
-    this.ngQueryBuilderService.buildQuery(this.rawQueryString);
+    this.ngQueryBuilderService.generateExpressionTree(this.rawQueryString);
+    let ans = this.ngQueryBuilderService.evaluateExpression('2 + (3 * hjlsahd)');
+    console.log("ANS", ans)
   }
 }

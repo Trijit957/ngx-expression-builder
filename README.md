@@ -47,17 +47,12 @@ export class MyComponent { ... }
 ```
 constructor(private readonly ngExpressionBuilderService: NgExpressionBuilderService) { ... }
 ```
-> There are only two public methods:
-| Name           | Required | Default          | Description                                                                                                                                                                                                                       |
+### There are only two public methods:
+
+| Name           | Input | Output          | Description                                                                                                                                                                                                                       |
 | -------------- | -------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `reels`     | yes      |                  |  Array of Objects Containing all the necessary information about each reel.                                                                                                                                                      |
-| `reelMetaInfo`       | no      |                  | Meta Details of the Reels Component such as Background colour, height, width etc.                                                                                                                                                                         |
-| `onMenuItemClicked`      | no      |                  | Callback Function that is called when any of menu items is clicked (When Right Menu is used).                                                                                                                                                               |
-| `onLikeClicked`  | no       |             | Callback Function that is called when like button is clicked (It automatically updates the count accordingly).                                                                                                                                                                                                 |
-| `onDislikeClicked`  | no       |                  | Callback Function that is called when dislike button is clicked (It automatically updates the count accordingly).                                                                                                                                                              |
-| `onCommentClicked`    | no       |                  | Callback Function that is called when comment button is clicked.                                                                                                                                                         |
-| `onShareClicked` | no       |                  |Callback Function that is called when share button is clicked.                                                                                                                                                            |
-| `onAvatarClicked`   | no       |                  | Callback Function that is called when Avatar is clicked.               
+| `generateExpressionTree`     | infix expression (string)      |  expression tree structure                |  Converts the infix expression into a binary tree structure                                                                                                                                                      |
+| `evaluateExpression`   | infix expression (string)      |   value (number)               |  Evaluates the value of the expression       |          
 
 
 ## Example

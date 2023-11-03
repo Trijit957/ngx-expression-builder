@@ -8,7 +8,7 @@ class Node {
 
     constructor(data: any) {
         if(data.symbol && data.name) {
-            this.operatorSymbol = data.symbol;
+            this.operatorSymbol = data.symbol.trim();
             this.operatorName = data.name;
         } else {
             this.operatorSymbol = data;
@@ -36,7 +36,7 @@ export class ExpressionTree {
 
             if(this.isOperator(character as OperatorSymbolEnum)) {
 
-                if(character === '!') {
+                if(character === OperatorSymbolEnum.NOT) {
                     child = stack.pop();            
                     temp = new Node(selectedOperator);
 
@@ -80,7 +80,7 @@ export class ExpressionTree {
                         leftChildValue = Number(leftChild);
                     } else if(typeof leftChild === 'string') {
                         leftChildDataType = 'string';
-                        leftChildValue = String(leftChild);
+                        leftChildValue = leftChild;
                     } else {
                         leftChildDataType = 'Node';
                         leftChildValue = leftChild;
@@ -94,7 +94,7 @@ export class ExpressionTree {
                         rightChildValue = Number(rightChild);
                     } else if(typeof leftChild === 'string') {
                         rightChildDataType = 'string';
-                        rightChildValue = String(rightChild);
+                        rightChildValue = rightChild;
                     } else {
                         rightChildDataType = 'Node';
                         rightChildValue = rightChild;
@@ -117,7 +117,7 @@ export class ExpressionTree {
                 stack.push(temp);
             } else {
                 temp = new Node(character);
-                stack.push(temp.operatorSymbol);
+                stack.push(temp.operatorSymbol.trim());
             }
 
         }

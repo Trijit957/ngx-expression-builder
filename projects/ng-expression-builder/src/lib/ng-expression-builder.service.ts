@@ -11,7 +11,8 @@ export class NgExpressionBuilderService {
     [OperatorSymbolEnum.ADD]: (a: number, b: number) => a + b ,
     [OperatorSymbolEnum.SUBSTRACT]: (a: number, b: number) => a - b ,
     [OperatorSymbolEnum.MULTIPLY]: (a: number, b: number) => a * b ,
-    [OperatorSymbolEnum.DIVIDE]: (a: number, b: number) => a / b 
+    [OperatorSymbolEnum.DIVIDE]: (a: number, b: number) => a / b,
+    [OperatorSymbolEnum.EXPONENTIATION]: (a: number, b: number) => Math.pow(a, b) 
   };
 
   constructor() { }
@@ -91,13 +92,13 @@ export class NgExpressionBuilderService {
 
     let expressionArray = this.buildExpression(infixExpressionString);
 
-    let regex = /[0-9\+\-\*/\(\)]/
+    let mathematicalExpressionRegex = /[0-9\+\-\*/\(\)\^]/
 
     expressionArray.forEach(node => {
-      if(!regex.test(node)) {
-         throw new Error(`ParseError: ${infixExpressionString} is Not a valid mathematical expression`)
+      if(!mathematicalExpressionRegex.test(node)) {
+         throw new Error(`ParseError: ${infixExpressionString} is Not a valid mathematical expression`);
       }
-    })
+    });
 
     let postfixExpressionArray: string[] = convertToPostfix(expressionArray);
 
@@ -129,7 +130,7 @@ export class NgExpressionBuilderService {
     }
 
       if(Number(stack[0])) {
-        return stack[0]
+        return stack[0];
       } else {
         throw new Error(`ParseError: ${infixExpressionString} is Not a valid mathematical expression`);
       }

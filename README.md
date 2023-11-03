@@ -1,27 +1,150 @@
-# NgQueryBuilder
+# ng-expression-builder
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+> A minimalistic Angular package for evaluating mathematical expression and creating expression tree from infix notation
 
-## Development server
+[![NPM](https://img.shields.io/npm/v/ng-expression-builder)](https://www.npmjs.com/package/ng-expression-builder) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Install
 
-## Code scaffolding
+```bash
+npm install --save ng-expression-builder
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+> Include the service **NgExpressionBuilderService** into the providers array of corresponding module or component
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```tsx
+import { NgExpressionBuilderService } from 'ng-expression-builder';
 
-## Running unit tests
+@NgModule({
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...
+  ],
+  providers: [NgExpressionBuilderService], // here
+  exports: [
+    ...
+  ]
+})
+export class MyModule { }
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```tsx
+@Component({
+  selector: 'my-component',
+  templateUrl: './my-component.component.html',
+  styleUrls: ['./my-component.component.scss'],
+  providers: [NgExpressionBuilderService] // here
+})
+export class MyComponent { ... }
+```
 
-## Running end-to-end tests
+> Now inject the service into the corresponding Angular component through constructor
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```
+constructor(private readonly ngExpressionBuilderService: NgExpressionBuilderService) { ... }
+```
+> There are only two public methods:
+| Name           | Input | Output          | Description                                                                                                                                                                                                                       |
+| -------------- | -------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `generateExpressionTree`     | infix expression (string)      |  expression tree structure                |  Converts the infix expression into a binary tree structure                                                                                                                                                      |
+| `evaluateExpression`   | infix expression (string)      |   value (number)               |  Evaluates the value of the expression       |              
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Example
+```
+const infixExpression: string = '((2*(6-1))/2+5)*4';
+const answer = this.ngExpressionBuilderService.evaluateExpression(infixExpression);
+console.log(answer);
+
+// Output:
+40
+```
+
+```
+const infixExpression: string = '(a + b) > 10 AND (c * (-5))/100';
+const tree = this.ngExpressionBuilderService.generateExpressionTree(this.rawQueryString);
+console.log(tree);
+
+// Output:
+
+{
+    "operatorSymbol": "AND",
+    "operatorName": "And",
+    "children": [
+        {
+            "value": {
+                "operatorSymbol": ">",
+                "operatorName": "Greater than",
+                "children": [
+                    {
+                        "value": {
+                            "operatorSymbol": "+",
+                            "operatorName": "Add",
+                            "children": [
+                                {
+                                    "value": "a",
+                                    "nodeType": "Left node",
+                                    "type": "string"
+                                },
+                                {
+                                    "value": "b",
+                                    "nodeType": "Right node",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "nodeType": "Left node",
+                        "type": "Node"
+                    },
+                    {
+                        "value": 10,
+                        "nodeType": "Right node",
+                        "type": "number"
+                    }
+                ]
+            },
+            "nodeType": "Left node",
+            "type": "Node"
+        },
+        {
+            "value": {
+                "operatorSymbol": "/",
+                "operatorName": "Divide",
+                "children": [
+                    {
+                        "value": {
+                            "operatorSymbol": "*",
+                            "operatorName": "Multiply",
+                            "children": [
+                                {
+                                    "value": "c",
+                                    "nodeType": "Left node",
+                                    "type": "string"
+                                },
+                                {
+                                    "value": -5,
+                                    "nodeType": "Right node",
+                                    "type": "number"
+                                }
+                            ]
+                        },
+                        "nodeType": "Left node",
+                        "type": "Node"
+                    },
+                    {
+                        "value": 100,
+                        "nodeType": "Right node",
+                        "type": "number"
+                    }
+                ]
+            },
+            "nodeType": "Right node",
+            "type": "Node"
+        }
+    ]
+}
+```

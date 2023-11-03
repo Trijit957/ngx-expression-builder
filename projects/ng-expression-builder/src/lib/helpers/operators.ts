@@ -2,6 +2,11 @@ import { MappedOperatorEnum, OperatorNameEnum, OperatorSymbolEnum, OperatorType 
 
 export const operators: Array<OperatorType> = [
     {
+      name: OperatorNameEnum.EXPONENTIATION,
+      symbol: OperatorSymbolEnum.EXPONENTIATION,
+      mappedSymbol: OperatorSymbolEnum.EXPONENTIATION
+    },
+    {
       name: OperatorNameEnum.MULTIPLY,
       symbol: OperatorSymbolEnum.MULTIPLY,
       mappedSymbol: OperatorSymbolEnum.MULTIPLY

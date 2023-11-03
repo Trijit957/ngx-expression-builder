@@ -1,6 +1,9 @@
 {
-  "name": "ng-expression-builder",
-  "version": "0.0.0",
+  "name": "ngx-expression-builder",
+  "version": "1.0.0",
+  "author": "Trijit Goswami",
+  "license": "ISC",
+  "repository": "https://github.com/Trijit957/ngx-expression-builder",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,7 +11,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^14.1.0",
     "@angular/common": "^14.1.0",

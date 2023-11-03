@@ -47,11 +47,12 @@ export class MyComponent { ... }
 ```
 constructor(private readonly ngExpressionBuilderService: NgExpressionBuilderService) { ... }
 ```
-> There are only two public methods:
+### There are only two public methods:
+
 | Name           | Input | Output          | Description                                                                                                                                                                                                                       |
 | -------------- | -------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `generateExpressionTree`     | infix expression (string)      |  expression tree structure                |  Converts the infix expression into a binary tree structure                                                                                                                                                      |
-| `evaluateExpression`   | infix expression (string)      |   value (number)               |  Evaluates the value of the expression       |              
+| `evaluateExpression`   | infix expression (string)      |   value (number)               |  Evaluates the value of the expression       |          
 
 
 ## Example

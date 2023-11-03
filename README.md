@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install --save ng-expression-builder
+npm install --save ngx-expression-builder
 ```
 
 ## Usage
